@@ -23,7 +23,7 @@ async function chargerEcoles() {
 
                 const option = document.createElement("option");
 
-                option.value = ecole.fields.UAI;
+                option.value = ecole.id;
 
                 option.textContent =
                     `${ecole.fields.UAI} — ${ecole.fields.Ecole} (${ecole.fields.Ville})`;
@@ -32,12 +32,9 @@ async function chargerEcoles() {
 
             });
 
-    } catch (e) {
+    } catch (erreur) {
 
-        console.error(e);
-
-        liste.innerHTML =
-            "<option>Erreur de chargement</option>";
+        console.error(erreur);
 
     }
 
