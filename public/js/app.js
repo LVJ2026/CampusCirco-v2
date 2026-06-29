@@ -46,6 +46,20 @@ function afficherEcole() {
     document.getElementById("type").textContent = ecole.fields.Type ?? "";
     document.getElementById("formation").textContent = ecole.fields.Type_de_formation ?? "";
     document.getElementById("nb").textContent = ecole.fields.Nb_enseignants ?? "";
+
+chargerSeances();
+}
+
+async function chargerSeances() {
+
+    const zone = document.getElementById("seances");
+
+    const reponse = await fetch("/api/seances");
+    const donnees = await reponse.json();
+
+    zone.innerHTML = "<pre>" + JSON.stringify(donnees.records, null, 2) + "</pre>";
+
 }
 
 document.addEventListener("DOMContentLoaded", chargerEcoles);
+
