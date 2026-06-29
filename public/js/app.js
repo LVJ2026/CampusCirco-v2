@@ -21,8 +21,7 @@ async function chargerEcoles() {
             const option = document.createElement("option");
 
             option.value = ecole.id;
-            option.textContent =
-                `${ecole.fields.Ecole} (${ecole.fields.Ville})`;
+            option.textContent = `${ecole.fields.Ecole} (${ecole.fields.Ville})`;
 
             liste.appendChild(option);
 
@@ -47,6 +46,9 @@ function afficherEcole() {
     document.getElementById("formation").textContent = ecole.fields.Type_de_formation ?? "";
     document.getElementById("nb").textContent = ecole.fields.Nb_enseignants ?? "";
 
+    chargerSeances();
+}
+
 async function chargerSeances() {
 
     const zone = document.getElementById("seances");
@@ -61,12 +63,7 @@ async function chargerSeances() {
         const div = document.createElement("div");
 
         div.textContent =
-            seance.fields.ID_seance +
-            " - " +
-            seance.fields.Domaine +
-            " (" +
-            seance.fields.Duree +
-            ")";
+            `${seance.fields.ID_seance} - ${seance.fields.Domaine} (${seance.fields.Duree})`;
 
         zone.appendChild(div);
 
@@ -75,4 +72,3 @@ async function chargerSeances() {
 }
 
 document.addEventListener("DOMContentLoaded", chargerEcoles);
-
