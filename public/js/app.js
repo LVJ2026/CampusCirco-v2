@@ -1,43 +1,51 @@
+let ecoles = [];
+
 async function chargerEcoles() {
 
     const liste = document.getElementById("ecole");
 
-    try {
+    const reponse = await fetch("/api/ecoles");
+    const donnees = await reponse.json();
 
-        const reponse = await fetch("/api/ecoles");
+    ecoles = donnees.records;
 
-        if (!reponse.ok) {
-            throw new Error("Erreur " + reponse.status);
-        }
+    liste.innerHTML = "";
 
-        const donnees = await reponse.json();
+    ecoles
+        .sort((a, b) =>
+            a.fields.Ville.localeCompare(b.fields.Ville) ||
+            a.fields.Ecole.localeCompare(b.fields.Ecole)
+        )
+        .forEach(ecole => {
 
-        liste.innerHTML = "";
+            const option = document.createElement("option");
 
-        donnees.records
-            .sort((a, b) =>
-                a.fields.Ville.localeCompare(b.fields.Ville) ||
-                a.fields.Ecole.localeCompare(b.fields.Ecole)
-            )
-            .forEach(ecole => {
+            option.value = ecole.id;
+            option.textContent =
+                `${ecole.fields.Ecole} (${ecole.fields.Ville})`;
 
-                const option = document.createElement("option");
+            liste.appendChild(option);
 
-                option.value = ecole.id;
+        });
 
-                option.textContent =
-                    `${ecole.fields.UAI} — ${ecole.fields.Ecole} (${ecole.fields.Ville})`;
+    liste.addEventListener("change", afficherEcole);
 
-                liste.appendChild(option);
+    afficherEcole();
+}
 
-            });
+function afficherEcole() {
 
-    } catch (erreur) {
+    const id = Number(document.getElementById("ecole").value);
 
-        console.error(erreur);
+    const ecole = ecoles.find(e => e.id === id);
 
-    }
+    if (!ecole) return;
 
+    document.getElementById("uai").textContent = ecole.fields.UAI ?? "";
+    document.getElementById("ville").textContent = ecole.fields.Ville ?? "";
+    document.getElementById("type").textContent = ecole.fields.Type ?? "";
+    document.getElementById("formation").textContent = ecole.fields.Type_de_formation ?? "";
+    document.getElementById("nb").textContent = ecole.fields.Nb_enseignants ?? "";
 }
 
 document.addEventListener("DOMContentLoaded", chargerEcoles);
