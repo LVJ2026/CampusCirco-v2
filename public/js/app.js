@@ -47,19 +47,30 @@ function afficherEcole() {
     document.getElementById("formation").textContent = ecole.fields.Type_de_formation ?? "";
     document.getElementById("nb").textContent = ecole.fields.Nb_enseignants ?? "";
 
-chargerSeances();
-}
-
 async function chargerSeances() {
 
     const zone = document.getElementById("seances");
 
-const reponse = await fetch("/api/seances");
-const texte = await reponse.text();
+    const reponse = await fetch("/api/seances");
+    const donnees = await reponse.json();
 
-console.log(texte);
+    zone.innerHTML = "";
 
-zone.innerHTML = texte;
+    donnees.records.forEach(seance => {
+
+        const div = document.createElement("div");
+
+        div.textContent =
+            seance.fields.ID_seance +
+            " - " +
+            seance.fields.Domaine +
+            " (" +
+            seance.fields.Duree +
+            ")";
+
+        zone.appendChild(div);
+
+    });
 
 }
 
