@@ -54,10 +54,12 @@ async function chargerSeances() {
 
     const zone = document.getElementById("seances");
 
-    const reponse = await fetch("/api/seances");
-    const donnees = await reponse.json();
+const reponse = await fetch("/api/seances");
+const texte = await reponse.text();
 
-    zone.innerHTML = "<pre>" + JSON.stringify(donnees.records, null, 2) + "</pre>";
+console.log(texte);
+
+zone.innerHTML = texte;
 
 }
 
