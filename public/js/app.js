@@ -19,7 +19,6 @@ async function chargerEcoles() {
         .forEach(ecole => {
 
             const option = document.createElement("option");
-
             option.value = ecole.id;
             option.textContent = `${ecole.fields.Ecole} (${ecole.fields.Ville})`;
 
@@ -53,21 +52,30 @@ async function chargerSeances() {
 
     const zone = document.getElementById("seances");
 
+    const typeFormation =
+        document.getElementById("formation").textContent;
+
     const reponse = await fetch("/api/seances");
     const donnees = await reponse.json();
 
     zone.innerHTML = "";
 
-    donnees.records.forEach(seance => {
+    donnees.records
+        .filter(seance => seance.fields.Animation == typeFormation)
+        .forEach(seance => {
 
-        const div = document.createElement("div");
+            const div = document.createElement("div");
 
-        div.textContent =
-            `${seance.fields.ID_seance} - ${seance.fields.Domaine} (${seance.fields.Duree})`;
+            div.textContent =
+                `${seance.fields.ID_seance} - ${seance.fields.Domaine} (${seance.fields.Duree})`;
 
-        zone.appendChild(div);
+            zone.appendChild(div);
 
-    });
+        });
+
+    if (zone.innerHTML === "") {
+        zone.textContent = "Aucune séance";
+    }
 
 }
 
