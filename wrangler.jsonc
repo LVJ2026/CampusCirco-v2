@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "campuscirco-v2",
+  "name": "campuscirco-v3",
   "main": "worker/index.js",
   "compatibility_date": "2026-06-29",
 
